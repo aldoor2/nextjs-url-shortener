@@ -4,13 +4,22 @@ import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 
 export default function Home() {
-  const [shortURL, setshortURL] = useState('')
+  const [shortURL, setShortURL] = useState('')
   const inputRef = useRef()
 
   const handleSubmit = (e) => {
     e.preventDefault()
     const url = inputRef.current.value
-    // TODO. Preticion al API
+
+    fetch('/api/shortUrl', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ url })
+    })
+      .then(res => res.json())
+      .then(data => setShortURL(data.shortUrl))
   }
 
   return (
