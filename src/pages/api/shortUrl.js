@@ -1,12 +1,22 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
+import { PrismaClient } from '@prisma/client'
+
+const prisma = new PrismaClient()
 
 export default async function handler(req, res) {
-  const { url } = req.body;
-  const shorUrl = Math.random()
+  const { url } = req.body
+  const shortUrl = Math.random()
     .toString(36)
-    .substring(2, 6)
+    .substring(2, 7)
 
-  // TODO: Database storage of shortened url
+  try {
+    const dataAdded = await prisma.link.create({
+      data: { url, shortUrl },
+    })
 
-  res.json({ url, shorUrl })
+    return res.status(201).send(dataAdded)
+  } catch (error) {
+    return res.status(500).send({ error: error.message })
+  }
+
 }
