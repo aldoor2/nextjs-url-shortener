@@ -43,7 +43,7 @@ export default function Home() {
           <form className={styles.card} onSubmit={handleSubmit}>
             <input
               ref={inputRef}
-              type="text"
+              type="url"
               className={styles.input}
               placeholder='URL'
               style={{ padding: '3px' }}
